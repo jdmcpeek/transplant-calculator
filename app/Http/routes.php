@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 	$results = $query->get();
 
-	print_r($results);
+	// print_r($results);
 
 
     return response()

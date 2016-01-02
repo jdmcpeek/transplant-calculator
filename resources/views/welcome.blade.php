@@ -38,7 +38,17 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">{{implode($text)}}</div>
+                <div class="title">test</div>
+                <table>
+                    @foreach ($text as $row)
+                        <tr>
+                            @foreach ($row as $key => $val)
+                               <td>{{$key}} {{$val}}</td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </table>
+
 
                 <form action=""></form>
             </div>
