@@ -14,7 +14,7 @@ class CreateTransplantsTable extends Migration
     {   
         // need to go ahead and migrate this table
         // also need to decide whether to use integers or strings for things like "ethnicity"
-        Schema::create('users', function($table)
+        Schema::create('transplants', function($table)
         {
             $table->boolean('lung');
             $table->boolean('heart');
@@ -27,10 +27,9 @@ class CreateTransplantsTable extends Migration
             $table->integer('inotropes');
             $table->integer('ventilator');
             $table->integer('ecmo');
-            $table->integer('one_yr');
-            $table->integer('five_yr');
-            $table->integer('ten_yr');
-            $table->integer('tx_year');
+            $table->boolean('one_yr');
+            $table->boolean('five_yr');
+            $table->boolean('ten_yr');
         });
     }
 
@@ -41,6 +40,7 @@ class CreateTransplantsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users')
+        // Schema::drop('users');
+        Schema::drop('transplants');
     }
 }

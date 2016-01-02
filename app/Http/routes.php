@@ -12,7 +12,23 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+	$query = DB::table('transplants');
+
+	$columns = ["lung", "heart", "heart_lung", "age", "bmi", "diagnosis", "ethnicity", "gender", "inotropes", "ventilator", "ecmo", "one_yr", "five_yr", "ten_yr"];
+
+	foreach ($columns as $col) {
+		if (Request::has($col))
+			$query->where($col, Request::input($col));
+	}
+
+	$results = $query->get();
+
+	print_r($results);
+
+
+    return response()
+           ->view('welcome', ["text" => $results]); 
 });
 
 /*
