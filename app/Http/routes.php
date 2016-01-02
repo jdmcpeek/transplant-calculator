@@ -4,11 +4,6 @@
 |--------------------------------------------------------------------------
 | Routes File
 |--------------------------------------------------------------------------
-|
-| Here is where you will register all of the routes in an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
 */
 
 Route::get('/', function() {
@@ -20,13 +15,15 @@ Route::get('/query', function () {
 
 	$query = DB::table('transplants');
 
-	$columns = ["lung", "heart", "heart_lung", "age", "bmi", "diagnosis", "ethnicity", "gender", "inotropes", "ventilator", "ecmo", "one_yr", "five_yr", "ten_yr"];
+	$columns = ["age", "bmi", "diagnosis", "ethnicity", "gender", "inotropes", "ventilator", "ecmo"];
 
 	// require columns: ORGAN and SURVIVAL
-	if (!Request::has("lung") && !Request::has("heart") && !Request::has("lung"))
+	if (!Request::has("organ") || !in_array(Request::input("organ"), ["lung", "heart", "heart_lung"]))
 		return response()->view('sorry', ["apology" => "please specify the transplanted organ"]);
-	else if (!Request::has("one_yr") && !Request::has("five_yr") && !Request::has("ten_yr"))
+	else if (!Request::has("survival"))
 		return response()->view('sorry', ["apology" => "please specify the time elapsed after organ transplant"]);
+
+	$query->where(Request::input("organ"), 1); 
 
 	foreach ($columns as $col) {
 		if (Request::has($col)) {
@@ -60,13 +57,13 @@ Route::get('/query', function () {
 			}
 			else if ($col == "diagnosis") {
 				// dealing with lung patients
-				if (Request::input("heart") == 1 && (Request::input("diagnosis") < 1 || Request::input("diagnosis") > 7))
+				if (Request::input("organ") == "heart" && (Request::input("diagnosis") < 1 || Request::input("diagnosis") > 7))
 					return response()->view('sorry', ["apology" => "incorrect organ-to-diagnosis selection"]);
 
-				else if (Request::input("lung") == 1 && (Request::input("diagnosis") < 8 || Request::input("diagnosis") > 12))
+				else if (Request::input("organ") == "lung" && (Request::input("diagnosis") < 8 || Request::input("diagnosis") > 12))
 					return response()->view('sorry', ["apology" => "incorrect organ-to-diagnosis selection"]);
 
-				else if (Request::input("heart_lung") == 1 && (Request::input("diagnosis") < 8 || Request::input("diagnosis") > 12))
+				else if (Request::input("organ") == "heart_lung" && (Request::input("diagnosis") < 8 || Request::input("diagnosis") > 12))
 					return response()->view('sorry', ["apology" => "incorrect organ-to-diagnosis selection"]);
 
 				else
@@ -80,8 +77,52 @@ Route::get('/query', function () {
 	}
 
 	$results = $query->get();
+	$years_elapsed = Request::input("survival");
 
-	return response()->json($results);
+	$survived = 0.0;
+	$died = 0.0;
+
+
+	foreach ($results as $patient) {
+		if ($patient->{$years_elapsed} == 2)
+			$survived += 1.0;
+		else if ($patient->{$years_elapsed} == 1)
+			$died += 1.0;
+	}
+
+	$rates = [
+		"heart" => [
+			"one_yr" => 85.2,
+			"five_yr" => 69.5,
+			"ten_yr" => 52.5
+		],
+		"lung" => [
+			"one_yr" => 82.3,
+			"five_yr" => 43.5,
+			"ten_yr" => 21.4
+		],
+		"heart_lung" => [
+			"one_yr" => 68,
+			"five_yr" => 36.4,
+			"ten_yr" => 23.4
+		]
+	];
+	// for matches
+	$total = $died + $survived;
+
+	if ($total == 0)
+		return response()->view('sorry', ["apology" => "no matches for this query"]);
+
+	$response = ["matched" => $total, "similar_patients" => $survived / $total, "average" => $rates[Request::input("organ")][$years_elapsed]];
+
+
+
+
+
+
+	// process the results
+	
+	return response()->json($response);
 
     // return response()
            // ->view('queryresults', ["text" => $results, "query" => Request::all()]); 
