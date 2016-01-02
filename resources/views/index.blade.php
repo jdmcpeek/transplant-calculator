@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Laravel</title>
+        <title>Home</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
         <style>
             html, body {
@@ -31,26 +32,14 @@
             }
 
             .title {
-                font-size: 96px;
+                font-size: 60px;
             }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">test</div>
-                <table>
-                    @foreach ($text as $row)
-                        <tr>
-                            @foreach ($row as $key => $val)
-                               <td>{{$key}} {{$val}}</td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </table>
-
-
-                <form action=""></form>
+                <div class="title">home.</div>
             </div>
         </div>
     </body>
