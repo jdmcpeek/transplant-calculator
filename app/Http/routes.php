@@ -115,17 +115,13 @@ Route::get('/query', function () {
 
 	$response = ["matched" => $total, "similar_patients" => $survived / $total, "average" => $rates[Request::input("organ")][$years_elapsed]];
 
-
-
-
-
-
 	// process the results
+	// 
 	
 	return response()->json($response);
 
-    // return response()
-           // ->view('queryresults', ["text" => $results, "query" => Request::all()]); 
+	// return response()->json($results);
+    
 });
 
 /*
