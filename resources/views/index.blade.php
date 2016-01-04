@@ -20,22 +20,11 @@
                 font-weight: 100;
                 font-family: 'Lato';
             }
-            .container {
-                display: table-cell;
-                vertical-align: middle;
-                column-count: 2;
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-                text-align: center;
 
-            }
-            .input {
-                -webkit-column-span: 1; /* Chrome, Safari, Opera */
-                column-span: 1;
-            }
-            .results {
-                -webkit-column-span: 1; /* Chrome, Safari, Opera */
-                column-span: 1;
+            .row {
+                display: table-cell;
+                vertical-align: middle; 
+                text-align: center;
             }
             .content {
                 text-align: center;
@@ -50,33 +39,48 @@
                 display: inline-block;
 
                 /* override Bootstrap's 100% width for form controls */
-                width: auto;
+                width: 25%;
             }
-
             select, input {
                 /*display: block;*/
             }
-
-
         </style>
     </head>
     <body>
-        <div class="container">
+        <!-- <div class="container"> -->
  <!--            <div class="content">
                 <div class="title">home.</div>
             </div> -->
             <div class="row">
                     <div class="col-md-6">
-                        <form action="#" method="get" class="input">
+                        <form action="#" method="get" class="input" onsubmit="getResults(); return false;">
 
-                            <p><select class="form-control" name="organ">
+                            <p><select class="form-control" name="organ" onchange="chooseTransplant()">
                                 <option selected="selected" disabled="disabled">Organ</option>
                                 <option value="heart">heart</option>
                                 <option value="lung">lung</option>
                                 <option value="heart_lung">heart+lung</option>
                             </select></p>
 
-                            <p><input type="text" placeholder="age" name="age"></p>
+                            <p><input type="text" class="form-control" placeholder="age" name="age"></p>
+
+                            <p><input type="text" class="form-control" placeholder="bmi" name="bmi"></p>                           
+
+                             <p><select class="form-control" name="ethnicity">
+                                <option selected="selected" disabled="disabled">Ethnicity</option>
+                                <option value="1">White</option>
+                                <option value="2">Black</option>
+                                <option value="4">Hispanic</option>
+                                <option value="5">Asian</option>
+                                <option value="6">American Indian</option>
+                                <option value="7">Native Hawaiian</option>
+                                <option value="9">Multiracial</option>
+                            </select></p>
+
+
+                            <p><select class="form-control" name="diagnosis">
+                                <option selected="selected" disabled="disabled">Diagnosis</option>
+                            </select></p>
 
                             <p><select class="form-control" name="gender">
                                 <option selected="selected" disabled="disabled">Gender</option>
@@ -91,31 +95,32 @@
                                 <option value="ten_yr">10 year</option>
                             </select></p>
 
-                            <p><input type="submit" class="btn btn-info get-results" value="Submit Button"></p>
+                            <p><input type="submit" class="btn btn-info get-results" value="Calculate"></p>
                      
                         </form>    
 
 
 
                     </div>
-                    <div class="col-md-6">These are the results</div>
+                    <div class="col-md-6 results">
+
+                        Results
+
+                    </div>
             </div>
            
 
-            <div class="results">
-                These are the results.
-            </div>
 
 
-        </div>
+        <!-- </div> -->
 
 
 
         <script>
-            $("form").submit(function(event) {
+            function getResults() 
+            {  
                 var data = {}; 
                 var fields = $(".input").serializeArray();
-                console.log(fields);
                 fields.map(function(x){data[x.name] = x.value;}); 
 
                 if (!data.hasOwnProperty("organ")) {
@@ -127,11 +132,53 @@
                     return false; 
                 }
 
-                $.getJSON("/query", data, function(dat) {
+                console.log(data);  
+                $(".results").html("Results");
 
-                    console.log(dat);
-                })
-            });
+                $.getJSON("/query", data, function(results) {
+                    var survival = data.survival.substring(0, data.survival.indexOf("_"));
+                    $(".results").append("<p>" + results.matched + " similar patients were identified. </p>"); 
+                    $(".results").append("<p>" + survival + "-year survival of similar patients: " + Math.ceil(results.similar_patients*1000)/10 + "%</p>");
+                    $(".results").append("<p>Compared to " + survival + "-year survival of all patients: " + results.average + "%</p>")
+
+                });
+            }
+
+            function chooseTransplant() 
+            {
+                var organ = $('[name="organ"]')[0].value;
+                if (organ == "heart") {
+                     var options = "<option selected='selected' disabled='disabled'>Diagnosis</option>" + 
+                                    "<option value='1'>HRT- Cardiomyopathy</option>" +
+                                    "<option value='6'>HRT- CHD</option>" +
+                                    "<option value='3'>HRT- CAD</option>" +
+                                    "<option value='5'>HRT- Valve</option>" +
+                                    "<option value='7'>HRT- Other</option>";
+                    $('[name="diagnosis"]').html(options);
+
+                } else if (organ == "lung") {
+                    var options =  "<option selected='selected' disabled='disabled'>Diagnosis</option>" + 
+                                    "<option value='8'>LNG- CF</option>" +
+                                    "<option value='9'>LNG- PPH</option>" +
+                                    "<option value='10'>LNG- PF/IPF</option>" +
+                                    "<option value='11'>LNG- OB</option>" +
+                                    "<option value='12'>LNG- Other</option>";
+
+                    $('[name="diagnosis"]').html(options);
+                } else if (organ == "heart_lung") {
+                    var options =  "<option selected='selected' disabled='disabled'>Diagnosis</option>" + 
+                                    "<option value='13'>HRTLNG- CHD</option>" +
+                                    "<option value='14'>HRTLNG- PPH</option>" + 
+                                    "<option value='15'>HRTLNG- Other</option>"; 
+
+                    $('[name="diagnosis"]').html(options);
+                }
+
+            }
+              
+
+
+              // 
         </script>
 
 
