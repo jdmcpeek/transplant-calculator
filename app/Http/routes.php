@@ -111,8 +111,8 @@ Route::get('/query', function () {
 	$total = $died + $survived;
 
 	if ($total == 0)
-		return response()->view('sorry', ["apology" => "no matches for this query"]);
-
+		return 0;
+	
 	$response = ["matched" => $total, "similar_patients" => $survived / $total, "average" => $rates[Request::input("organ")][$years_elapsed]];
 
 	// process the results
