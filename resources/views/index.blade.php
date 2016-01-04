@@ -64,22 +64,22 @@
 
             <form action="#" method="get" class="input">
 
-                    <select class="form-control">
+                    <select class="form-control" name="organ">
                         <option selected="selected" disabled="disabled">Organ</option>
                         <option value="heart">heart</option>
                         <option value="lung">lung</option>
                         <option value="heart_lung">heart+lung</option>
                     </select>
 
-                    <input type="text" placeholder="age">
+                    <input type="text" placeholder="age" name="age">
 
-                    <select class="form-control">
+                    <select class="form-control" name="gender">
                         <option selected="selected" disabled="disabled">Gender</option>
                         <option value="1">male</option>
                         <option value="0">female</option>
                     </select>
 
-                     <select class="form-control">
+                     <select class="form-control" name="survival">
                         <option selected="selected" disabled="disabled">Survival</option>
                         <option value="one_yr">1 year</option>
                         <option value="five_yr">5 year</option>
@@ -100,19 +100,24 @@
 
 
         <script>
-            $(".input").submit(function() {
-                var inputs = $('.input :input');
-                console.log(inputs);
+            $("form").submit(function(event) {
+                var data = {}; 
+                var fields = $(".input").serializeArray();
+                console.log(fields);
+                fields.map(function(x){data[x.name] = x.value;}); 
 
-                var values = {};
-                $.each($('.input').serializeArray(), function(i, field) {
-                    values[field.name] = field.value;
-                });
+                if (!data.hasOwnProperty("organ")) {
+                    alert("Please specify the organ transplanted.");
+                    return false;
+                }
+                else if (!data.hasOwnProperty("survival")) {
+                    alert("Please specify the survival time");
+                    return false; 
+                }
 
-                console.log(values);
+                $.getJSON("/query", data, function(dat) {
 
-                $.getJSON("/query", {"survival":"one_yr", "organ":"heart"}, function(data) {
-                    console.log(data);
+                    console.log(dat);
                 })
             });
         </script>
