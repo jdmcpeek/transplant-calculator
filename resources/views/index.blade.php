@@ -25,7 +25,7 @@
                 vertical-align: middle;
                 column-count: 2;
                 -webkit-column-count: 2;
-                -moz-column-count: 3;
+                -moz-column-count: 2;
                 text-align: center;
 
             }
@@ -53,6 +53,10 @@
                 width: auto;
             }
 
+            select, input {
+                /*display: block;*/
+            }
+
 
         </style>
     </head>
@@ -61,34 +65,42 @@
  <!--            <div class="content">
                 <div class="title">home.</div>
             </div> -->
+            <div class="row">
+                    <div class="col-md-6">
+                        <form action="#" method="get" class="input">
 
-            <form action="#" method="get" class="input">
+                            <p><select class="form-control" name="organ">
+                                <option selected="selected" disabled="disabled">Organ</option>
+                                <option value="heart">heart</option>
+                                <option value="lung">lung</option>
+                                <option value="heart_lung">heart+lung</option>
+                            </select></p>
 
-                    <select class="form-control" name="organ">
-                        <option selected="selected" disabled="disabled">Organ</option>
-                        <option value="heart">heart</option>
-                        <option value="lung">lung</option>
-                        <option value="heart_lung">heart+lung</option>
-                    </select>
+                            <p><input type="text" placeholder="age" name="age"></p>
 
-                    <input type="text" placeholder="age" name="age">
+                            <p><select class="form-control" name="gender">
+                                <option selected="selected" disabled="disabled">Gender</option>
+                                <option value="1">male</option>
+                                <option value="0">female</option>
+                            </select></p>
 
-                    <select class="form-control" name="gender">
-                        <option selected="selected" disabled="disabled">Gender</option>
-                        <option value="1">male</option>
-                        <option value="0">female</option>
-                    </select>
+                             <p><select class="form-control" name="survival">
+                                <option selected="selected" disabled="disabled">Survival</option>
+                                <option value="one_yr">1 year</option>
+                                <option value="five_yr">5 year</option>
+                                <option value="ten_yr">10 year</option>
+                            </select></p>
 
-                     <select class="form-control" name="survival">
-                        <option selected="selected" disabled="disabled">Survival</option>
-                        <option value="one_yr">1 year</option>
-                        <option value="five_yr">5 year</option>
-                        <option value="ten_yr">10 year</option>
-                    </select>
+                            <p><input type="submit" class="btn btn-info get-results" value="Submit Button"></p>
+                     
+                        </form>    
 
-                    <input type="submit" class="btn btn-info get-results" value="Submit Button">
-                 
-            </form>
+
+
+                    </div>
+                    <div class="col-md-6">These are the results</div>
+            </div>
+           
 
             <div class="results">
                 These are the results.
