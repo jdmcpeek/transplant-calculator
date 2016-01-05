@@ -1,11 +1,12 @@
 <?php
+// comment for dev, uncomment for prod
+// 
+// $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-
-$host = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
+// $host = $url["host"];
+// $username = $url["user"];
+// $password = $url["pass"];
+// $database = substr($url["path"], 1);
 
 return [
 
@@ -59,12 +60,26 @@ return [
             'prefix'   => '',
         ],
 
-        'mysql' => [
+        // production
+        // 'mysql' => [
+        //     'driver'    => 'mysql',
+        //     'host'      => $host,
+        //     'database'  => $database,
+        //     'username'  => $username,
+        //     'password'  => $password,
+        //     'charset'   => 'utf8',
+        //     'collation' => 'utf8_unicode_ci',
+        //     'prefix'    => '',
+        //     'strict'    => false,
+        // ],
+
+        // development
+          'mysql' => [
             'driver'    => 'mysql',
-            'host'      => $host,
-            'database'  => $database,
-            'username'  => $username,
-            'password'  => $password,
+            'host'      => env('DB_HOST', '127.0.0.1'),
+            'database'  => env('DB_DATABASE', 'forge'),
+            'username'  => env('DB_USERNAME', 'forge'),
+            'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
