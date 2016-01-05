@@ -10,19 +10,34 @@ use DB;
 use Request;
 use Redirect; 
 use Cookie;
-use Session; 
+// use Session; 
+use Illuminate\Support\Facades\Session;
+
 class Query extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    public function index()
+    {
+    	return Session::all();
+    	if (!Session::has('logged_in')) {
+    		return Redirect::to('/login');
+    	}
+
+		return response()->view("index");
+    }
+
+
     public function login() 
     {
-    	$password = "12345";
+    	$password = "3";
     	if (Request::input("password") == $password){
-    		Session::put('logged_in', 'true');
-    		// Session::save();
+    		if (!Session::has("logged_in")) {
+    			Session::put('logged_in', 'true');
+    			// session(["logged_in" => "true"]);
+    		}
     		return Redirect::to("/");
     	} else {
-    		return response()->view('sorry', ["apology" => "wrong login password. Please try again."]);
+    		return response()->view('sorry', ["apology" => "wrong login password. Please try again"]);
     	}
     }
 
@@ -30,7 +45,7 @@ class Query extends BaseController
     {
 
     	// check if session has password (if user is logged in)
-    	if (Session::get('logged_in') != 'true') {
+    	if (!Session::has('logged_in')) {
     		return Redirect::to('/login');
     	}
 

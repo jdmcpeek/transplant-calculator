@@ -6,15 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function() {
-	// if session doesn't have the password, redirect to login with password screen
-	// return dd(Session::get('logged_in'));	
-	if (Session::get('logged_in') != 'true') {
-    	return Redirect::to('/login');
-    }
-
-	return response()->view("index");
-});
+Route::get('/', 'Query@index');
 
 Route::get('/login', function() {
 	return response()->view("login"); 
