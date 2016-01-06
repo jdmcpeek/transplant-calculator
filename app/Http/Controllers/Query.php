@@ -10,44 +10,19 @@ use DB;
 use Request;
 use Redirect; 
 use Cookie;
+use Auth;
 // use Session; 
 use Illuminate\Support\Facades\Session;
 
 class Query extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function index()
-    {
-    	return Session::all();
-    	if (!Session::has('logged_in')) {
-    		return Redirect::to('/login');
-    	}
-
-		return response()->view("index");
-    }
-
-
-    public function login() 
-    {
-    	$password = "3";
-    	if (Request::input("password") == $password){
-    		if (!Session::has("logged_in")) {
-    			Session::put('logged_in', 'true');
-    			// session(["logged_in" => "true"]);
-    		}
-    		return Redirect::to("/");
-    	} else {
-    		return response()->view('sorry', ["apology" => "wrong login password. Please try again"]);
-    	}
-    }
 
     public function query()
     {
 
-    	// check if session has password (if user is logged in)
-    	if (!Session::has('logged_in')) {
-    		return Redirect::to('/login');
-    	}
+		if (!Auth::check()) 
+			return Redirect::to("/");
 
     	$query = DB::table('transplants');
 

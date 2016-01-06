@@ -6,16 +6,18 @@
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', 'Query@index');
+// Route::get('/', ['middleware' => 'auth', function() {
+// 	return response()->view("home");
+// }]);
 
-Route::get('/login', function() {
-	return response()->view("login"); 
+
+Route::get('/logout', function() {
+	Auth::logout();
+	return Redirect::to("/login");
 });
 
-Route::post('/login', 'Query@login');
 
 
-Route::get('/query', 'Query@query');
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,12 @@ Route::get('/query', 'Query@query');
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/', 'HomeController@index');
+
+    Route::get('/query', 'Query@query');
+
 });
