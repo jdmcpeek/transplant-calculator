@@ -31,7 +31,7 @@
                 vertical-align: middle;
             }
             .btn {
-                width: 50%;
+                width: 20%;
                 margin-top: 45px;
             }
             .row {
@@ -59,9 +59,36 @@
             }
 
 
-    
             .input-select p {
-                padding: 10px;
+                padding: 0px;
+            }
+
+            .left-select, .right-select {
+                text-align: center;
+            }
+
+
+
+            /* Extra small devices (phones, less than 768px) */
+            /* No media query since this is the default in Bootstrap */
+
+
+            /* Medium devices (desktops, 992px and up) */
+            @media (min-width: 992px) { 
+                .left-select {
+                    text-align: right;
+                }
+                .right-select {
+                    text-align: left;
+                }
+
+                .input-select p {
+                    padding: 10px;
+                }
+                .btn {
+                    width: 50%;
+                }
+
             }
 
             .title.footer {
@@ -95,7 +122,7 @@
             <form action="#" method="get" class="input" onsubmit="getResults(); return false;">
                 <div class="row">
                     
-                        <div class="col-md-3 input-select" style='text-align: right;'>
+                        <div class="col-md-3 input-select left-select">
                             <p><select class="form-control" name="organ" onchange="chooseTransplant()">
                                 <option selected="selected" disabled="disabled">Organ (required)</option>
                                 <option value="heart">heart</option>
@@ -152,7 +179,7 @@
                             </select></p>
                         </div>
 
-                        <div class="col-md-3 input-select" style='text-align: left;'>
+                        <div class="col-md-3 input-select right-select">
 
                             <p><select class="form-control" name="diagnosis">
                                 <option selected="selected" value="">Diagnosis</option>

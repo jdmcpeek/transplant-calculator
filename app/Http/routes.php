@@ -16,6 +16,12 @@ Route::get('/logout', function() {
 	return Redirect::to("/login");
 });
 
+// Route::get('/test', function() {
+// 	return Hash::make("nLegnD3Ecz3M");
+
+// 	// stored: $2y$10$GbQYVhy9F6igCKHa021j1ONDkZdNekhlVUFZY0bKGtd8ZEKGFu7xC
+// });
+
 
 
 
