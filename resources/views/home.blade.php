@@ -269,7 +269,7 @@
             </form>   
 
             <div class="title footer">
-                <p><a href="{{ url('/logout') }}" class="logout">Logout here.</a></p>
+                <!-- <p><a href="{{ url('/logout') }}" class="logout">Logout here.</a></p> -->
                 <p>   
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, sapiente! Sint architecto odio, eos cupiditate nesciunt, impedit libero ipsum porro eius aspernatur necessitatibus provident repellendus.
                 </p>
