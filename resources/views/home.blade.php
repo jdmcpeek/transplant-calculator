@@ -220,7 +220,7 @@
                             </select></p>                         
 
                             <p><select class="form-control" name="ecmo">
-                                <option selected="selected" value="">Ecmo</option>
+                                <option selected="selected" value="">ECMO</option>
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                             </select></p>

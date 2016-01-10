@@ -6,22 +6,23 @@
 |--------------------------------------------------------------------------
 */
 
-// Route::get('/', ['middleware' => 'auth', function() {
-// 	return response()->view("home");
-// }]);
+/* COMMENT FOR AUTHENTICATION */
 
-
-Route::get('/logout', function() {
-	Auth::logout();
-	return Redirect::to("/login");
+Route::get('/', function() {
+	return response()->view("home");
 });
 
-// Route::get('/test', function() {
-// 	return Hash::make("nLegnD3Ecz3M");
+Route::get('/query', 'Query@query');
 
-// 	// stored: $2y$10$GbQYVhy9F6igCKHa021j1ONDkZdNekhlVUFZY0bKGtd8ZEKGFu7xC
-// });
+Route::get('/register', function() {
+	return Redirect::to('/');
+}); 
 
+Route::get('/login', function() {
+	return Redirect::to('/');
+}); 
+
+/* COMMENT FOR AUTHENTICATION */
 
 
 
@@ -38,10 +39,18 @@ Route::get('/logout', function() {
 
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+    
+	/* UNCOMMENT ALL FOR AUTHENTICATION */
+ //    Route::auth();
 
-    Route::get('/', 'HomeController@index');
+ //    Route::get('/', 'HomeController@index');
 
-    Route::get('/query', 'Query@query');
+ //    Route::get('/query', 'Query@query');
+	
+	// Route::get('/logout', function() {
+	// 	Auth::logout();
+	// 	return Redirect::to("/login");
+	// });
+	/* UNCOMMENT ALL FOR AUTHENTICATION */
 
 });

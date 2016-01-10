@@ -20,9 +20,11 @@ class Query extends BaseController
 
     public function query()
     {
-
-		if (!Auth::check()) 
-			return Redirect::to("/");
+    	/* UNCOMMENT FOR AUTHENTICATION */
+		// if (!Auth::check()) 
+		// 	return Redirect::to("/");
+		/* UNCOMMENT FOR AUTHENTICATION */
+		
 
     	$query = DB::table('transplants');
 
