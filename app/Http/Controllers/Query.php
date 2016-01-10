@@ -24,7 +24,7 @@ class Query extends BaseController
 		// if (!Auth::check()) 
 		// 	return Redirect::to("/");
 		/* UNCOMMENT FOR AUTHENTICATION */
-		
+
 
     	$query = DB::table('transplants');
 
@@ -76,7 +76,7 @@ class Query extends BaseController
 					else if (Request::input("organ") == "lung" && (Request::input("diagnosis") < 8 || Request::input("diagnosis") > 12))
 						return response()->view('sorry', ["apology" => "incorrect organ-to-diagnosis selection"]);
 
-					else if (Request::input("organ") == "heart_lung" && (Request::input("diagnosis") < 8 || Request::input("diagnosis") > 12))
+					else if (Request::input("organ") == "heart_lung" && (Request::input("diagnosis") < 13 || Request::input("diagnosis") > 15))
 						return response()->view('sorry', ["apology" => "incorrect organ-to-diagnosis selection"]);
 
 					else
